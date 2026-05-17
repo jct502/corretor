@@ -33,6 +33,28 @@
             line-height: 1.5;
             font-size: 15px;
         }
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: #1f2833;
+            border: 1px solid #66fcf1;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+        .select-field {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: #1f2833;
+            border: 1px solid #66fcf1;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
         .btn { 
             display: block; 
             width: 100%; 
@@ -64,124 +86,184 @@
         .black-card {
             border: 2px solid #66fcf1;
             background: #000000;
+            padding: 25px;
+            border-radius: 12px;
         }
-        .ranking-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            border-bottom: 1px solid #1f2833;
-        }
-        .ranking-top {
-            color: #66fcf1;
+        .resultado-box {
+            font-size: 20px;
             font-weight: bold;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+        .sucesso { background: rgba(0, 255, 0, 0.2); color: #44ff44; border: 1px solid #44ff44; }
+        .erro { background: rgba(255, 0, 0, 0.2); color: #ff4444; border: 1px solid #ff4444; }
+        
+        /* Estilo Livro / Arsenal */
+        .livro-pagina {
+            background: #fff;
+            color: #222;
+            padding: 30px;
+            border-radius: 4px;
+            text-align: left;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+            border-left: 10px solid #1f2833;
+            margin-top: 15px;
+        }
+        .livro-num {
+            text-align: right;
+            font-weight: bold;
+            font-size: 14px;
+            color: #777;
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 5px;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- TOPO DO APP -->
-        <div class="box">
-            <h3 style="color: #66fcf1; letter-spacing: 1px;">📊 BRIEFING ECONÔMICO</h3>
-            <p id="noticia">Carregando mercado em tempo real...</p>
-            <hr style="border: 0; border-top: 1px solid #1f2833; margin: 15px 0;">
-            <p id="motivacional" style="font-style: italic; color: #45f3ff;"></p>
+        
+        <!-- 1. TELA DE CADASTRO -->
+        <div id="tela-cadastro" class="box">
+            <h2>🔐 ATIVAÇÃO DE CREDENCIAIS</h2>
+            <p>Insira os seus dados para desbloquear os protocolos diários.</p>
+            <input type="text" id="cad-nome" class="input-field" placeholder="Nome Completo">
+            <input type="text" id="cad-cidade" class="input-field" placeholder="Cidade de Atuação">
+            <input type="text" id="cad-estado" class="input-field" placeholder="Estado (Ex: SC, PR)">
+            
+            <select id="cad-nicho" class="select-field">
+                <option value="" disabled selected>Nicho Principal de Atuação</option>
+                <option value="Lançamentos">Lançamentos de Alto Padrão</option>
+                <option value="Imóveis Prontos">Imóveis Prontos / Terceiros</option>
+                <option value="Locação">Locação e Gestão</option>
+            </select>
+            
+            <button class="btn" onclick="salvarCadastro()" style="background: #66fcf1; color: #0b0c10; margin-top: 20px;">ACESSAR PLATAFORMA</button>
         </div>
 
-        <!-- TELA INICIAL / RANKING -->
-        <div id="tela-inicial" class="box">
-            <h2>🏆 OPERADORES ELITE</h2>
-            <p style="font-size: 13px; color: #858585;">Atualizado às 20h00</p>
-            <div id="ranking-lista">
-                <div class="ranking-item ranking-top"><span>1º Marcos Silva</span><span>450 pts</span></div>
-                <div class="ranking-item ranking-top"><span>2º Ana Paula</span><span>435 pts</span></div>
-                <div class="ranking-item ranking-top"><span>3º Thiago Souza</span><span>420 pts</span></div>
-                <div class="ranking-item"><span>4º Roberto Lima</span><span>390 pts</span></div>
-                <div class="ranking-item"><span>5º Carla Dias</span><span>385 pts</span></div>
+        <!-- APP PRINCIPAL (ESCONDIDO ATÉ FAZER CADASTRO) -->
+        <div id="app-conteudo" class="escondido">
+            
+            <!-- TOPO DO APP -->
+            <div class="box">
+                <h3 style="color: #66fcf1; letter-spacing: 1px;">📊 BRIEFING ECONÔMICO</h3>
+                <p id="noticia">Carregando mercado em tempo real...</p>
+                <hr style="border: 0; border-top: 1px solid #1f2833; margin: 15px 0;">
+                <p id="motivacional" style="font-style: italic; color: #45f3ff;"></p>
+                <p id="boas-vindas" style="font-size: 12px; color: #858585; margin-top: 10px;"></p>
             </div>
-            <p style="font-size: 12px; color: #66fcf1; margin-top: 15px;">Você está a 35 pontos do Top 10.</p>
-            <button class="btn" onclick="comecarDesafio()" style="background: #66fcf1; color: #0b0c10;">INICIAR PROTOCOLO DIÁRIO</button>
-        </div>
 
-        <!-- ARENA DO QUIZ -->
-        <div id="arena-quiz" class="box escondido">
-            <h2 id="num-pergunta">Pergunta 1 de 3</h2>
-            <div id="timer">20s</div>
-            <p id="texto-pergunta" style="font-size: 17px; font-weight: bold; color: #fff;"></p>
-            <div id="opcoes"></div>
-        </div>
+            <!-- TELA INICIAL / RANKING -->
+            <div id="tela-inicial" class="box">
+                <h2>🏆 OPERADORES ELITE</h2>
+                <p style="font-size: 13px; color: #858585;">Atualizado hoje às 20h00</p>
+                <div id="ranking-lista" style="text-align: left; background: #0b0c10; padding: 10px; border-radius: 6px;">
+                    <div style="display:flex; justify-content:space-between; padding: 8px 0; border-bottom: 1px solid #1f2833; color:#66fcf1; font-weight:bold;"><span>1º Você (<span class="nome-user"></span>)</span><span>Iniciando</span></div>
+                    <div style="display:flex; justify-content:space-between; padding: 8px 0; border-bottom: 1px solid #1f2833; color: #858585;"><span>2º Marcos Silva (Joinville)</span><span>450 pts</span></div>
+                    <div style="display:flex; justify-content:space-between; padding: 8px 0; color: #858585;"><span>3º Ana Paula (Baln. Piçarras)</span><span>435 pts</span></div>
+                </div>
+                <button class="btn" onclick="comecarDesafio()" style="background: #66fcf1; color: #0b0c10; margin-top: 20px;">INICIAR PROTOCOLO DIÁRIO</button>
+            </div>
 
-        <!-- TELA DE RECOMPENSA -->
-        <div id="tela-recompensa" class="box black-card escondido">
-            <h2 style="color: #66fcf1; margin-bottom: 5px;">🏆 BLACK CARD LIBERADO!</h2>
-            <p style="font-size: 12px; color: #858585; margin-bottom: 20px;">Adicionado automaticamente ao seu Arsenal</p>
-            <h3 id="titulo-card" style="color: #fff; text-transform: uppercase;"></h3>
-            <div id="texto-card" style="text-align: left; padding: 5px; font-size: 14px; color: #c5c6c7;"></div>
-            <button class="btn" onclick="location.reload()" style="margin-top: 20px;">VOLTAR AO PAINEL</button>
+            <!-- ARENA DO QUIZ -->
+            <div id="arena-quiz" class="box escondido">
+                <h2 id="num-pergunta">Pergunta 1 de 3</h2>
+                <div id="timer">20s</div>
+                <p id="texto-pergunta" style="font-size: 17px; font-weight: bold; color: #fff;"></p>
+                <div id="opcoes"></div>
+            </div>
+
+            <!-- TELA DE FEEDBACK PARCIAL (ACERTOU / ERROU) -->
+            <div id="tela-feedback" class="box escondido">
+                <div id="resultado-mensagem" class="resultado-box"></div>
+                <button id="btn-feedback-acao" class="btn">AVANÇAR</button>
+            </div>
+
+            <!-- TELA DE RECOMPENSA (BLACK CARD / LIVRO ARSENAL) -->
+            <div id="tela-recompensa" class="box escondido">
+                <h2 style="color: #66fcf1; margin-bottom: 5px;">🏆 PROTOCOLO CONCLUÍDO!</h2>
+                <p style="font-size: 14px; margin-bottom: 20px;">Você gabaritou o quiz do dia.</p>
+                
+                <div class="black-card">
+                    <h3 id="titulo-card" style="color: #66fcf1; text-transform: uppercase; font-size: 16px; margin-bottom: 15px;"></h3>
+                    
+                    <!-- Formato Livro Físico -->
+                    <div class="livro-pagina">
+                        <div id="texto-card" style="font-size: 14px; line-height: 1.6; color: #333;"></div>
+                        <div id="pagina-num" class="livro-num"></div>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="baixarDica()" style="background: #66fcf1; color: #0b0c10; margin-top: 20px;">💾 GUARDAR E BAIXAR DICA</button>
+                <button class="btn" onclick="location.reload()">VOLTAR AO PAINEL</button>
+            </div>
+
         </div>
     </div>
 
     <script>
-        // BANCO DE DADOS PILOTO INTEGRADO (DIAS 1 A 4)
+        // BANCO DE DADOS PILOTO INTEGRADO
         const bancoDados = {
-            "2026-05-17": { // DIA 1
-                noticia: "Com a Selic e o crédito imobiliário pressionados em 2026 devido à inflação de serviços, o investidor inteligente busca ativos reais. Mostre ao seu cliente o ganho de capital seguro.",
+            "2026-05-17": {
+                noticia: "Com a Selic e o crédito imobiliário pressionados em 2026 devido à inflação de serviços, o investidor inteligente busca ativos reais.",
                 motivacional: "“O mercado não está ruim; ele apenas ficou seletivo. Ele expulsa o amador e premia o consultor estratégico.”",
+                numPagina: "Pág. 1",
                 perguntas: [
                     { p: "Qual gatilho mental aumenta a percepção de valor SEM reduzir o preço do imóvel?", o: ["Urgência falsa", "Excesso de informação", "Escassez percebida", "Comparação barata"], r: 2 },
                     { p: "Em cenário de juros elevados em 2026, qual índice regional reflete melhor o custo real de obra na planta?", o: ["IGP-M simples", "IPCA + juros", "CUB setorial regionalizado", "Taxa referencial pura"], r: 2 },
                     { p: "Um cliente faz muitas perguntas técnicas e evita qualquer tipo de emoção. Qual o perfil comportamental?", o: ["Dominante", "Analítico", "Comunicador", "Impulsivo"], r: 1 }
                 ],
                 cardTitulo: "Armas da Persuasão no Plantão",
-                cardTexto: "<b>1. PROVA SOCIAL:</b> Nunca diga 'esse projeto vende bem'. Diga: 'Os compradores que mais fecharam aqui são empresários que buscavam patrimônio de longo prazo'.<br><br><b>2. ESCASSEZ:</b> Não venda apartamento disponível. Venda exclusividade: 'Essa tipologia praticamente desaparece primeiro porque entrega privacidade'."
-            },
-            "2026-05-18": { // DIA 2
-                noticia: "O Índice Nacional de Custo da Construção (INCC) acumulado aponta forte pressão nos insumos. Postergar a assinatura significa pagar mais caro na evolução de obra.",
-                motivacional: "“O cliente nunca some sem motivo; ele some porque você não deu um motivo forte o suficiente para ele ficar.”",
-                perguntas: [
-                    { p: "O cliente diz no WhatsApp: 'Vou pensar e te aviso'. Qual a pior postura para o corretor?", o: ["Fazer uma pergunta aberta de dúvida", "Concordar e dizer: 'Fico no seu aguardo'", "Oferecer benefício condicionado ao dia", "Enviar vídeo com tour completo"], r: 1 },
-                    { p: "Ao apresentar projeto para investidor focado em ganho de capital, qual argumento gera maior impacto?", o: ["Número de vagas de garagem", "Beleza do design de fachada", "Histórico de valorização do m² frente à inflação", "Proximidade com o comércio"], r: 2 },
-                    { p: "Qual o erro mais comum ao enviar tabelas de preço e plantas pelo WhatsApp?", o: ["Enviar em formato PDF organizado", "Disparar múltiplos arquivos de uma vez sem contexto", "Agendar ligação de vídeo explicativa", "Mandar áudios curtos de 45 segundos"], r: 1 }
-                ],
-                cardTitulo: "Como Destruir o 'Vou Pensar'",
-                cardTexto: "<b>1. RETIRE A PRESSÃO:</b> Diga: 'Perfeito. Um investimento desse porte exige mesmo uma análise técnica. Está coberto de razão'.<br><br><b>2. ISOLE A OBJEÇÃO:</b> 'Geralmente quando avaliam é por dois motivos: ou o fluxo não encaixou ou o produto não gerou conexão. Sendo transparente, qual ponto pesa mais?'"
-            },
-            "2026-05-19": { // DIA 3
-                noticia: "Com os bancos limitando o teto de financiamento para reter liquidez, a habilidade de montar tabelas diretas de curto prazo com o proprietário destrava a venda.",
-                motivacional: "“Captação não é quantidade, é controle. Quem tem o produto exclusivo e bem precificado dita as regras do jogo.”",
-                perguntas: [
-                    { p: "O proprietário diz: 'Não dou exclusividade porque quanto mais corretores, mais rápido vende'. Como quebrar?", o: ["Dizer que os outros não são profissionais", "Explicar que quem tem muitos não tem nenhum focado, pois ninguém investe verba em anúncio pulverizado", "Prometer venda em 30 dias", "Oferecer redução de comissão"], r: 1 },
-                    { p: "O que é o CUB e qual o seu impacto real em um contrato de compra de imóvel na planta?", o: ["Taxa de juros fixa pós-chaves", "Inflação do aço e cimento nacional", "Indicador regional que reflete custos de obra para atualizar o saldo devedor", "Imposto municipal pago na escritura"], r: 2 },
-                    { p: "Sem leads na roleta do plantão hoje. Qual a ação ativa de custo zero mais rápida para gerar resultado?", o: ["Postar foto bonita no Instagram pessoal", "Ligar para base antiga de clientes de 3 anos atrás para indicação ou upgrade", "Postar em classificados do Facebook", "Esperar o próximo lead entrar"], r: 1 }
-                ],
-                cardTitulo: "A Anatomia da Exclusividade",
-                cardTexto: "<b>1. MUDE O NOME:</b> Não peça exclusividade. Ofereça um 'Contrato de Gestão Patrimonial'. O nome muda o valor.<br><br><b>2. ARGUMENTO DE MARKETING:</b> 'Se eu anunciar sem gestão exclusiva, não posso investir do meu bolso em tráfego pago para ele, pois correria o risco de pagar pelo lead e outro vender'."
-            },
-            "2026-05-20": { // DIA 4
-                noticia: "Velocidade é tudo. Um lead respondido em até 5 minutos tem 391% mais chance de conversão do que um respondido após 30 minutos.",
-                motivacional: "“Quem não domina o próprio telefone vira escravo das notificações dos outros. Organize as ferramentas para produzir.”",
-                perguntas: [
-                    { p: "Um lead novo entra vindo de anúncio de internet. Qual o primeiro passo mais eficiente no WhatsApp?", o: ["Ligar direto por chamada de voz", "Enviar textão de 4 parágrafos e tabela", "Enviar mensagem curta chamando pelo nome e pergunta simples de qualificação", "Mandar áudio de 2 minutos"], r: 2 },
-                    { p: "Ao tirar fotos com iPhone em ambientes muito fechados, como banheiros, qual a configuração ideal?", o: ["Usar zoom máximo e dar passos para trás", "Lente Ultra-wide (0.5x), câmera na linha da cintura e celular perfeitamente vertical", "Modo Retrato com desfoque máximo", "Usar câmera frontal de selfie"], r: 1 },
-                    { p: "O cliente diz: 'Gostei, mas achei a metragem quadrada interna pequena para o valor'. Como contornar?", o: ["Discordar e dizer que o espaço é enorme", "Empurrar um apartamento maior na hora", "Mudar o foco para a inteligência de planta e ausência de corredores perdidos", "Dar desconto no valor total"], r: 2 }
-                ],
-                cardTitulo: "Bloco de Notas como Máquina de Vendas",
-                cardTexto: "<b>1. SCRIPTS DE ATAQUE:</b> Fixe uma nota no topo do iPhone com suas abordagens mais rápidas prontas para copiar e colar.<br><br><b>2. SCANNER INTEGRADO:</b> Clique na câmera dentro da nota e use 'Escanear Documentos' para gerar PDFs limpos de propostas em 2 segundos."
+                cardTexto: "<b>DIRETRIZ DE HOJE:</b><br><br><b>1. PROVA SOCIAL:</b> Nunca diga 'esse projeto vende bem'. Diga: 'Os compradores que mais fecharam aqui são empresários que buscavam patrimônio de longo prazo'.<br><br><b>2. ESCASSEZ:</b> Não venda apartamento disponível. Venda exclusividade: 'Essa tipologia praticamente desaparece primeiro porque entrega privacidade'."
             }
         };
 
-        // TRAVA ANTIFRAUDE DEFINITIVA
+        // TRAVAS ANTI-COPIA
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', e => {
-            if (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'u' || e.key === 's')) e.preventDefault();
+            if (e.ctrlKey && (e.key === 'c' || e.key === 'v')) e.preventDefault();
         });
 
-        // INICIALIZAÇÃO BASEADA NA DATA ATUAL DO DISPOSITIVO
+        // CADASTRO LOCAL STORAGE
+        function salvarCadastro() {
+            let nome = document.getElementById('cad-nome').value;
+            let cidade = document.getElementById('cad-cidade').value;
+            let estado = document.getElementById('cad-estado').value;
+            let nicho = document.getElementById('cad-nicho').value;
+
+            if(!nome || !cidade || !estado || !nicho) {
+                alert("Por favor, preencha todos os campos para continuar.");
+                return;
+            }
+
+            localStorage.setItem('corretor_nome', nome);
+            localStorage.setItem('corretor_cidade', cidade);
+            localStorage.setItem('corretor_estado', estado);
+            localStorage.setItem('corretor_nicho', nicho);
+
+            verificarCadastro();
+        }
+
+        function verificarCadastro() {
+            let nome = localStorage.getItem('corretor_nome');
+            if (nome) {
+                document.getElementById('tela-cadastro').classList.add('escondido');
+                document.getElementById('app-conteudo').classList.remove('escondido');
+                
+                let elementosNome = document.getElementsByClassName('nome-user');
+                for(let el of elementosNome) { el.innerText = nome.split(' ')[0]; }
+                
+                document.getElementById('boas-vindas').innerText = `Operador: ${nome} | Foco: ${localStorage.getItem('corretor_nicho')} em ${localStorage.getItem('corretor_cidade')}-${localStorage.getItem('corretor_estado')}`;
+            }
+        }
+
+        // EXECUÇÃO DO CONTEÚDO DIÁRIO
         let dataAtual = new Date().toISOString().split('T')[0];
-        let dadosHoje = bancoDados[dataAtual] || bancoDados["2026-05-17"]; // Padrão caso mude o dia
+        let dadosHoje = bancoDados[dataAtual] || bancoDados["2026-05-17"];
 
         document.getElementById('noticia').innerText = dadosHoje.noticia;
-        document.getElementById('noticia').innerHTML += "<br><span style='font-size:10px; color:#555;'>Fontes oficiais: Banco Central do Brasil | IBGE</span>";
         document.getElementById('motivacional').innerText = dadosHoje.motivacional;
 
         let perguntaAtual = 0;
@@ -214,7 +296,7 @@
                 let btn = document.createElement('button');
                 btn.className = "btn";
                 btn.innerText = opcao;
-                btn.onclick = () => responder(index);
+                btn.onclick = () => verificarResposta(index);
                 oDiv.appendChild(btn);
             });
 
@@ -222,29 +304,69 @@
                 tempo--;
                 document.getElementById('timer').innerText = tempo + "s";
                 if (tempo <= 0) {
-                    responder(-1);
+                    verificarResposta(-1);
                 }
             }, 1000);
         }
 
-        function responder(index) {
+        function verificarResposta(index) {
             clearInterval(cronometro);
             let q = dadosHoje.perguntas[perguntaAtual];
+            
+            document.getElementById('arena-quiz').classList.add('escondido');
+            document.getElementById('tela-feedback').classList.remove('escondido');
+            
+            let msgBox = document.getElementById('resultado-mensagem');
+            let btnAcao = document.getElementById('btn-feedback-acao');
+
             if (index === q.r) {
+                msgBox.innerText = "✅ ACERTOU! Excelente visão técnica.";
+                msgBox.className = "resultado-box sucesso";
                 perguntaAtual++;
-                iniciarQuiz();
+                btnAcao.innerText = "PRÓXIMA PERGUNTA";
+                btnAcao.onclick = () => {
+                    document.getElementById('tela-feedback').classList.add('escondido');
+                    document.getElementById('arena-quiz').classList.remove('escondido');
+                    iniciarQuiz();
+                };
             } else {
-                alert("Protocolo Corrompido! Resposta incorreta ou tempo esgotado. O ranking atualizou e você perdeu a sequência de hoje. Tente novamente amanhã às 08h00.");
-                location.reload();
+                msgBox.innerText = "❌ ERROU OU O TEMPO ESGOTOU! Protocolo interrompido.";
+                msgBox.className = "resultado-box erro";
+                btnAcao.innerText = "REINICIAR PROTOCOLO";
+                btnAcao.onclick = () => {
+                    location.reload();
+                };
             }
         }
 
         function finalizarQuiz() {
+            document.getElementById('tela-feedback').classList.add('escondido');
             document.getElementById('arena-quiz').classList.add('escondido');
             document.getElementById('tela-recompensa').classList.remove('escondido');
+            
             document.getElementById('titulo-card').innerText = dadosHoje.cardTitulo;
             document.getElementById('texto-card').innerHTML = dadosHoje.cardTexto;
+            document.getElementById('pagina-num').innerText = dadosHoje.numPagina;
         }
+
+        // GERADOR DE ARQUIVO TXT / IMPRESSÃO DA DICA (LIVRO ARSENAL)
+        function baixarDica() {
+            let textoLimpo = `LIVRO: ARSENAL DO CORRETOR PREMIUM
+${dadosHoje.numPagina}
+TÍTULO: ${dadosHoje.cardTitulo}
+
+${dadosHoje.cardTexto.replace(/<br>/g, '
+').replace(/<b>/g, '').replace(/<\/b>/g, '')}`;
+            
+            let blob = new Blob([textoLimpo], { type: "text/plain;charset=utf-8" });
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `Arsenal_Pagina_${perguntaAtual}.txt`;
+            link.click();
+        }
+
+        // Inicializa verificando se usuário já tem cadastro
+        verificarCadastro();
     </script>
 </body>
 </html>
